@@ -2,10 +2,12 @@ package aholg.solution
 
 import akka.actor.testkit.typed.scaladsl.ActorTestKit
 import org.scalatest.BeforeAndAfterAll
-import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
-class ContactsActorTest extends AsyncFunSuite with BeforeAndAfterAll with Matchers {
+import scala.concurrent.ExecutionContext.Implicits.global
+
+class ContactsActorTest extends AnyFunSuite with BeforeAndAfterAll with Matchers {
   val testKit: ActorTestKit = ActorTestKit()
 
   test("Should return 0 contacts for user without contacts") {
