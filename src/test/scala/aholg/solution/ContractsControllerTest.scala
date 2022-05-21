@@ -1,6 +1,7 @@
 package aholg.solution
 
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.ContentTypes.`application/json`
+import akka.http.scaladsl.model.{HttpEntity, StatusCodes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.BeforeAndAfterAll
@@ -38,7 +39,7 @@ class ContractsControllerTest extends AnyFunSuite
 
     val controller = new ContactsController(mockContactsService)
 
-    Post("/user/1/contacts", ContactsRequest(Seq(UserId(2), UserId(3), UserId(4), UserId(5)))) ~> controller.route ~> check {
+    Post("/user/1/contacts", HttpEntity(`application/json`, "{\"contacts\":[2, 3, 4, 5]}")) ~> controller.route ~> check {
       status shouldEqual StatusCodes.Created
     }
   }

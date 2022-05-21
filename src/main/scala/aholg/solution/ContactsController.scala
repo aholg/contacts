@@ -37,6 +37,14 @@ class ContactsController(contactsService: ContactsService)(implicit ec: Executio
 object ContactsController extends SprayJsonSupport with DefaultJsonProtocol {
   case class ContactsRequest(contacts: Seq[UserId])
 
-  implicit val userIdFormat: RootJsonFormat[UserId] = jsonFormat1(UserId)
+  implicit val userIdWriteFormat: RootJsonFormat[UserId] = new RootJsonFormat[UserId] {
+    def write(u: UserId): JsNumber = JsNumber(u.value)
+
+    override def read(json: JsValue): UserId = json match {
+      case JsNumber(n) => UserId(n.toInt)
+      case _ => deserializationError("Color expected")
+    }
+  }
+
   implicit val contactsRequestFormat: RootJsonFormat[ContactsRequest] = jsonFormat1(ContactsRequest)
 }
