@@ -14,5 +14,5 @@ object Main extends App {
   val contactsService = new ContactsService(contactsActor)
   val contactsController = new ContactsController(contactsService)
 
-  val bindingFuture = Http().newServerAt("localhost", 8080).bind(contactsController.route)
+  val bindingFuture = Http().newServerAt("localhost", 9000).bind(contactsController.route)
 }

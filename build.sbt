@@ -4,6 +4,8 @@ version := "1.0"
 
 scalaVersion := "2.13.6"
 
+fork := true
+
 val AkkaVersion = "2.6.19"
 val AkkaHttpVersion = "10.2.9"
 
