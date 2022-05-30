@@ -14,11 +14,11 @@ class ContactsActor(actor: ActorRef[ContactsCommand])
                    (implicit val timeout: Timeout = Timeout(5.seconds), scheduler: Scheduler) extends ContactsRepository {
 
   override def contacts(userId: UserId): Future[Seq[UserId]] = {
-    actor.ask[Seq[UserId]](ref => GetContacts(userId, ref))(timeout = timeout, scheduler = scheduler)
+    actor.ask[Seq[UserId]](ref => GetContacts(userId, ref))
   }
 
   override def updateContacts(userId: UserId, contacts: Seq[UserId]): Future[Unit] = {
-    actor.ask[Unit](ref => UpdateContacts(userId, contacts, ref))(timeout = timeout, scheduler = scheduler)
+    actor.ask[Unit](ref => UpdateContacts(userId, contacts, ref))
   }
 }
 
@@ -30,14 +30,14 @@ object ContactsActor {
 
   final case class UpdateContacts(userId: UserId, contacts: Seq[UserId], replyTo: ActorRef[Unit]) extends ContactsCommand
 
-  val inMemoryContacts = mutable.Map.empty[UserId, Seq[UserId]]
+  val inMemoryContacts = mutable.HashMap.empty[UserId, Seq[UserId]]
 
   def apply(): Behavior[ContactsCommand] = Behaviors.receiveMessage[ContactsCommand] {
     case GetContacts(userId, ref) =>
       ref ! inMemoryContacts.getOrElse(userId, Seq.empty)
       Behaviors.same
     case UpdateContacts(userId, contacts, ref) =>
-      inMemoryContacts.addOne(userId, contacts)
+      inMemoryContacts.put(userId, contacts)
       ref ! ()
       Behaviors.same
   }

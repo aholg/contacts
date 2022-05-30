@@ -1,4 +1,4 @@
-name := "test_ds_engineering_anton"
+name := "contacts"
 
 version := "1.0"
 

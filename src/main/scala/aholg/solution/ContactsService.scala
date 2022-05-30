@@ -1,5 +1,6 @@
 package aholg.solution
 
+import scala.collection.Set
 import scala.concurrent.{ExecutionContext, Future}
 
 class ContactsService(contactsRepository: ContactsRepository)(implicit ec: ExecutionContext) {
@@ -19,5 +20,4 @@ class ContactsService(contactsRepository: ContactsRepository)(implicit ec: Execu
       deduplicatedContactsOfContacts = contactsOfContacts.filterNot(u => userContacts.contains(u)).toSet
     } yield deduplicatedContactsOfContacts
   }
-
 }

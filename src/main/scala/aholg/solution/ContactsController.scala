@@ -42,7 +42,7 @@ object ContactsController extends SprayJsonSupport with DefaultJsonProtocol {
 
     override def read(json: JsValue): UserId = json match {
       case JsNumber(n) => UserId(n.toInt)
-      case _ => deserializationError("Color expected")
+      case _ => deserializationError("Number expected")
     }
   }
 
